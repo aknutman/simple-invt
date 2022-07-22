@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 80;
+const port = 3000;
 
 const _data = require('./lib/data');
 
@@ -8,7 +8,32 @@ app.use(express.json());
 
 // Get All item
 app.get('/api/items', (req, res) => {
-    res.send('List of all items')
+    _data.readAll('items', (err, filenames) => {
+        if (!err) {
+            let result = [];
+
+            filenames.forEach((filename, index, array) => {
+
+                _data.read('items', filename.replace('.json', ''), (err, parsedData) => {
+
+                    if (!err) {
+                        result.push({
+                            filename: filename,
+                            data: parsedData
+                        });
+                    }
+
+                    if (index === (array.length - 1)) {
+                        res.send(result);
+                    }
+                });
+            });
+
+        } else {
+            res.status(500);
+            res.send(`Cannot get the items!`);
+        }
+    })
 })
 
 // Get per item
@@ -79,7 +104,7 @@ app.delete('/api/item/:itemName', (req, res) => {
         }
         else {
             res.status(400);
-            res.send(`Item ${req.params.itemId} IS NOT EXISTS`);
+            res.send(`Item ${req.params.itemName} IS NOT EXISTS`);
         }
     })
 })
