@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 80;
 
 const _data = require('./lib/data');
 
@@ -11,10 +11,12 @@ app.get('/api/items', (req, res) => {
     _data.readAll('items', (err, filenames) => {
         if (!err) {
             let result = [];
+            let counter = 0;
 
             filenames.forEach((filename, index, array) => {
 
                 _data.read('items', filename.replace('.json', ''), (err, parsedData) => {
+                    counter++;
 
                     if (!err) {
                         result.push({
