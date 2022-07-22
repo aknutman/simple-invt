@@ -11,10 +11,13 @@ app.get('/api/items', (req, res) => {
     _data.readAll('items', (err, filenames) => {
         if (!err) {
             let result = [];
+            let counter = 0;
 
             filenames.forEach((filename, index, array) => {
 
                 _data.read('items', filename.replace('.json', ''), (err, parsedData) => {
+                    counter++;
+
                     if (!err) {
                         result.push({
                             filename: filename,
@@ -22,7 +25,7 @@ app.get('/api/items', (req, res) => {
                         });
                     }
 
-                    if (index === (array.length - 1)) {
+                    if (counter === array.length) {
                         res.send(result);
                     }
                 });
