@@ -1,3 +1,4 @@
+const { application } = require('express');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -5,6 +6,11 @@ const port = process.env.PORT || 3000;
 const _data = require('./lib/data');
 
 app.use(express.json());
+
+// Get on root
+application.get('/', (req, res) => {
+    res.send('Nothing is here. Use from frontend instead');
+})
 
 // Get All item
 app.get('/api/items', (req, res) => {
