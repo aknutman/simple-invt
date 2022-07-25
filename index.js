@@ -8,7 +8,7 @@ const _data = require('./lib/data');
 app.use(express.json());
 
 // Get on root
-application.get('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Nothing is here. Use from frontend instead');
 })
 
