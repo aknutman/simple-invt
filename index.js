@@ -1,5 +1,6 @@
 const { application } = require('express');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 var path = require('path');
@@ -14,6 +15,7 @@ app.maxFileSize = 200 * 1024;
 app.mimeType = ['image/png', 'image/jpg'];
 
 app.use(express.json());
+app.use(cors());
 
 // Get on root
 app.get('/', (req, res) => {
